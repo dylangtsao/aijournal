@@ -33,8 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "utils/firebase.js"  ],
   "exclude": [
-    "node_modules"
   ]
 }

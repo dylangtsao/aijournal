@@ -1,6 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import SignInPage from './pages/SignInPage'; // Adjust the import path according to your file structure
+import React from "react";
+import Login from "./pages/auth/login";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 // import HomePage from './components/HomePage'; // Example of another component
 
 function App() {
@@ -8,9 +9,7 @@ function App() {
     <Router>
       <div>
         <Routes>
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/" element={<HomePage />} />
-          // Add more routes as needed
+          <Route path="/auth/login" element={<Login />} />
         </Routes>
       </div>
     </Router>

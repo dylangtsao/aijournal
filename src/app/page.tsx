@@ -1,11 +1,15 @@
 "use client"; 
+import Link from "next/link";
 import { useState, useEffect } from 'react';
+import { auth } from "../../utils/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import axios from 'axios';
 
 export default function Home() {
-  const [text, setText] = useState('');
+  const [user, loading] = useAuthState(auth);
+  const [text, setText] = useState<string>('');
 
-  const handleTextChange = (event) => {
+  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
 
@@ -21,14 +25,16 @@ export default function Home() {
   const todayDate = new Date().toLocaleDateString();
 
   useEffect(() => {
-    const textarea = document.querySelector('textarea');
-    const handleKeyPress = (event) => {
+    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+    const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
-        const lines = textarea.value.split('\n').length;
-        const maxLines = Math.floor(window.innerHeight * 2 / 3 / parseFloat(getComputedStyle(textarea).lineHeight));
-        if (lines >= maxLines) {
-          event.preventDefault(); // Prevent default Enter behavior
-          // Optionally handle the max line scenario, e.g., show a message
+        if (textarea) {
+          const lines = textarea.value.split('\n').length;
+          const maxLines = Math.floor(window.innerHeight * 2 / 3 / parseFloat(getComputedStyle(textarea).lineHeight));
+          if (lines >= maxLines) {
+            event.preventDefault(); // Prevent default Enter behavior
+            // Optionally handle the max line scenario, e.g., show a message
+          }
         }
       }
     };
@@ -42,6 +48,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen w-full overflow-hidden">
+      <Link href={"/auth/login"}>Login</Link>
       <textarea 
         placeholder={`Type away...${todayDate}`} 
         className="w-full h-full resize-none bg-black text-white p-4 outline-none border-none text-lg"
@@ -51,6 +58,7 @@ export default function Home() {
         onChange={handleTextChange}
         onBlur={saveText}
       />
+      
     </main>
   );
 }
